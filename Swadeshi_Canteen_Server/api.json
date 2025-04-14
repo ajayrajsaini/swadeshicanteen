@@ -1,0 +1,1396 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API for Ajio Mart",
+      "version": "1.0.0",
+      "description": "API for server"
+    },
+    "servers": [
+      {
+        "url": "https://ajiomartserver.onrender.com"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Users",
+        "description": "Operations related to user management"
+      }
+    ],
+    "paths": {
+      "/users/sendOtp": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Send OTP to user email or phone",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the user"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Phone number of the user (10 digits)"
+                    }
+                  },
+                  "example": {
+                    "email": "example@example.com",
+                    "phone": "9876543210"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OTP sent successfully"
+            },
+            "400": {
+              "description": "Invalid email or phone number format"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/users/register": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Register a new user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the user"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Phone number of the user (10 digits)"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "description": "First name of the user"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "description": "Last name of the user"
+                    }
+                  },
+                  "example": {
+                    "email": "example@example.com",
+                    "phone": "9876543210",
+                    "firstName": "John",
+                    "lastName": "Doe"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Registration successful"
+            },
+            "400": {
+              "description": "User already exists or invalid phone number format"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/users/verify": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Verify user OTP",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the user"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Phone number of the user"
+                    },
+                    "otp": {
+                      "type": "string",
+                      "description": "OTP code sent to the user"
+                    }
+                  },
+                  "example": {
+                    "email": "example@example.com",
+                    "phone": "9876543210",
+                    "otp": "123abc"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Account verified successfully"
+            },
+            "400": {
+              "description": "Invalid verification code"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Log in an existing user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the user"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Phone number of the user"
+                    }
+                  },
+                  "example": {
+                    "email": "example@example.com",
+                    "phone": "9876543210"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login successful"
+            },
+            "400": {
+              "description": "User not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/users/{emailOrPhone}": {
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get user by email or phone",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "emailOrPhone",
+              "schema": {
+                "type": "string"
+              },
+              "required": true,
+              "description": "User's email or phone number"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User retrieved successfully"
+            },
+            "400": {
+              "description": "User not found or error fetching user"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/products": {
+        "post": {
+          "summary": "Create a new product",
+          "description": "Creates a new product under a specified category.",
+          "tags": [
+            "Products"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Laptop"
+                    },
+                    "productId": {
+                      "type": "string",
+                      "example": "P1234"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "A high-performance laptop"
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": 999.99
+                    },
+                    "categoryId": {
+                      "type": "string",
+                      "example": "C5678"
+                    },
+                    "stock": {
+                      "type": "number",
+                      "example": 100
+                    },
+                    "image": {
+                      "type": "string",
+                      "example": "https://example.com/laptop.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Product created successfully"
+            },
+            "400": {
+              "description": "Error creating product"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all products",
+          "description": "Retrieves a list of all available products.",
+          "tags": [
+            "Products"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of products"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/products/category/{id}": {
+        "get": {
+          "summary": "Get all products by category",
+          "description": "Retrieves a list of all products within the specified category.",
+          "tags": [
+            "Products"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Category ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of products"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/products/{id}": {
+        "get": {
+          "summary": "Get product by ID",
+          "description": "Retrieves a product by its unique product ID.",
+          "tags": [
+            "Products"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Product ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Product found"
+            },
+            "404": {
+              "description": "Product not found"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a product",
+          "description": "Updates a product's details by its product ID.",
+          "tags": [
+            "Products"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Product ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Laptop"
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": 899.99
+                    },
+                    "stock": {
+                      "type": "number",
+                      "example": 120
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Updated description"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Product updated successfully"
+            },
+            "400": {
+              "description": "Error updating product"
+            },
+            "404": {
+              "description": "Product not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a product",
+          "description": "Deletes a product by its ID.",
+          "tags": [
+            "Products"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Product ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Product deleted successfully"
+            },
+            "404": {
+              "description": "Product not found"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/orders": {
+        "post": {
+          "summary": "Create a new order",
+          "description": "Creates a new order for the user based on the cart items and delivery address.",
+          "tags": [
+            "Orders"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string",
+                      "example": "userId123"
+                    },
+                    "paymentMethod": {
+                      "type": "string",
+                      "example": "Credit Card"
+                    },
+                    "addressId": {
+                      "type": "string",
+                      "example": "addressId456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Order placed successfully"
+            },
+            "400": {
+              "description": "Error creating order or cart is empty"
+            },
+            "404": {
+              "description": "Address not found"
+            }
+          }
+        }
+      },
+      "/orders/user/{id}": {
+        "get": {
+          "summary": "Get all orders for a user",
+          "description": "Retrieves all orders for a specific user.",
+          "tags": [
+            "Orders"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "User ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of user orders retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/orders/{id}": {
+        "get": {
+          "summary": "Get order by ID",
+          "description": "Retrieves an order by its unique order ID.",
+          "tags": [
+            "Orders"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Order ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Order found"
+            },
+            "404": {
+              "description": "Order not found"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update an order",
+          "description": "Updates the status of an order, including order status and payment status.",
+          "tags": [
+            "Orders"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Order ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orderStatus": {
+                      "type": "string",
+                      "example": "Delivered"
+                    },
+                    "paymentStatus": {
+                      "type": "string",
+                      "example": "Paid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Order updated successfully"
+            },
+            "404": {
+              "description": "Order not found"
+            },
+            "500": {
+              "description": "Error updating order status"
+            }
+          }
+        }
+      },
+      "/categories": {
+        "post": {
+          "summary": "Create a new category",
+          "description": "Creates a new product category.",
+          "tags": [
+            "Categories"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "categoryId": {
+                      "type": "string",
+                      "example": "cat123"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Electronics"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "All kinds of electronics."
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "example": "http://example.com/images/electronics.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Category created successfully"
+            },
+            "400": {
+              "description": "Error creating category"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all categories",
+          "description": "Retrieves all product categories.",
+          "tags": [
+            "Categories"
+          ],
+          "responses": {
+            "200": {
+              "description": "List of categories retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/categories/{id}": {
+        "get": {
+          "summary": "Get category by ID",
+          "description": "Retrieves a specific category by its category ID.",
+          "tags": [
+            "Categories"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Category ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Category found"
+            },
+            "404": {
+              "description": "Category not found"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a category",
+          "description": "Updates an existing category by its category ID.",
+          "tags": [
+            "Categories"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Category ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Updated Category Name"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Updated category description"
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "example": "http://example.com/new-image.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Category updated successfully"
+            },
+            "400": {
+              "description": "Error updating category"
+            },
+            "404": {
+              "description": "Category not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a category",
+          "description": "Deletes an existing category by its category ID.",
+          "tags": [
+            "Categories"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Category ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Category deleted successfully"
+            },
+            "404": {
+              "description": "Category not found"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/cart": {
+        "post": {
+          "summary": "Add a product to cart",
+          "description": "Adds a product to the user's shopping cart, creating a new cart if none exists.",
+          "tags": [
+            "Cart"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string",
+                      "example": "user123"
+                    },
+                    "productId": {
+                      "type": "string",
+                      "example": "prod123"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "example": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Product added to cart successfully"
+            },
+            "400": {
+              "description": "Error while updating cart"
+            },
+            "404": {
+              "description": "Product not found"
+            }
+          }
+        }
+      },
+      "/cart/{emailOrPhone}": {
+        "get": {
+          "summary": "Get user's cart",
+          "description": "Retrieves the shopping cart for the specified user.",
+          "tags": [
+            "Cart"
+          ],
+          "parameters": [
+            {
+              "name": "emailOrPhone",
+              "in": "path",
+              "required": true,
+              "description": "User's email or phone number",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Cart retrieved successfully"
+            },
+            "404": {
+              "description": "Cart is empty"
+            },
+            "500": {
+              "description": "Error fetching cart"
+            }
+          }
+        }
+      },
+      "/cart/item/{productId}": {
+        "delete": {
+          "summary": "Remove an item from the cart",
+          "description": "Removes a specific product from the user's cart.",
+          "tags": [
+            "Cart"
+          ],
+          "parameters": [
+            {
+              "name": "productId",
+              "in": "path",
+              "required": true,
+              "description": "Product ID",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "user",
+              "in": "header",
+              "required": true,
+              "description": "User identifier (email or phone)",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Item removed from cart"
+            },
+            "404": {
+              "description": "Cart or item not found"
+            },
+            "500": {
+              "description": "Error removing item from cart"
+            }
+          }
+        }
+      },
+      "/cart/update-quantity": {
+        "put": {
+          "summary": "Update item quantity in cart",
+          "description": "Updates the quantity of a specific item in the user's cart.",
+          "tags": [
+            "Cart"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string",
+                      "example": "user123"
+                    },
+                    "productId": {
+                      "type": "string",
+                      "example": "prod123"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Item quantity updated successfully"
+            },
+            "404": {
+              "description": "Cart or item not found"
+            },
+            "500": {
+              "description": "Error updating item quantity"
+            }
+          }
+        }
+      },
+      "/addresses": {
+        "post": {
+          "summary": "Add a new address",
+          "tags": [
+            "Addresses"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string",
+                      "description": "ID of the user"
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "Label for the address"
+                    },
+                    "addressLine1": {
+                      "type": "string",
+                      "description": "First line of the address"
+                    },
+                    "addressLine2": {
+                      "type": "string",
+                      "description": "Second line of the address (optional)"
+                    },
+                    "city": {
+                      "type": "string",
+                      "description": "City of the address"
+                    },
+                    "state": {
+                      "type": "string",
+                      "description": "State of the address"
+                    },
+                    "postalCode": {
+                      "type": "string",
+                      "description": "Postal code of the address"
+                    },
+                    "phoneNumber": {
+                      "type": "string",
+                      "description": "Phone number associated with the address"
+                    },
+                    "isDefault": {
+                      "type": "boolean",
+                      "description": "Set this address as the default address"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Address saved successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "savedAddress": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "addressLine1": {
+                            "type": "string"
+                          },
+                          "addressLine2": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "postalCode": {
+                            "type": "string"
+                          },
+                          "phoneNumber": {
+                            "type": "string"
+                          },
+                          "isDefault": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request, missing required fields",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/addresses/{id}": {
+        "get": {
+          "summary": "Get all addresses for a user",
+          "tags": [
+            "Addresses"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the user",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of addresses",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "user": {
+                          "type": "string"
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "addressLine1": {
+                          "type": "string"
+                        },
+                        "addressLine2": {
+                          "type": "string"
+                        },
+                        "city": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "postalCode": {
+                          "type": "string"
+                        },
+                        "phoneNumber": {
+                          "type": "string"
+                        },
+                        "isDefault": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No addresses found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update an existing address",
+          "tags": [
+            "Addresses"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the address to update",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string",
+                      "description": "ID of the user"
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "Label for the address"
+                    },
+                    "addressLine1": {
+                      "type": "string",
+                      "description": "First line of the address"
+                    },
+                    "addressLine2": {
+                      "type": "string",
+                      "description": "Second line of the address (optional)"
+                    },
+                    "city": {
+                      "type": "string",
+                      "description": "City of the address"
+                    },
+                    "state": {
+                      "type": "string",
+                      "description": "State of the address"
+                    },
+                    "postalCode": {
+                      "type": "string",
+                      "description": "Postal code of the address"
+                    },
+                    "phoneNumber": {
+                      "type": "string",
+                      "description": "Phone number associated with the address"
+                    },
+                    "isDefault": {
+                      "type": "boolean",
+                      "description": "Set this address as the default address"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Address updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "updatedAddress": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "addressLine1": {
+                            "type": "string"
+                          },
+                          "addressLine2": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "postalCode": {
+                            "type": "string"
+                          },
+                          "phoneNumber": {
+                            "type": "string"
+                          },
+                          "isDefault": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Address not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete an address",
+          "tags": [
+            "Addresses"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the address to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Address deleted successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Address not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

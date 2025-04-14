@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1067244848523",
+    "project_id": "ajio-mart-dddf9",
+    "storage_bucket": "ajio-mart-dddf9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067244848523:android:0aaa58258ec6db29f59b8e",
+        "android_client_info": {
+          "package_name": "com.ajiomart.groceryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbZfbYYUxa_A_iNLLDJv2s3JUtrsE30GM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
